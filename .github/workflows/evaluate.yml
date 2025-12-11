@@ -138,9 +138,18 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
+          # Save generated files to temp location
+          mkdir -p /tmp/evaluation_results
+          cp -r results/* /tmp/evaluation_results/ || true
+          cp docs/index.html /tmp/index.html || true
+          
           # Checkout main branch
           git fetch origin main
           git checkout main
+          
+          # Copy generated files back
+          cp -r /tmp/evaluation_results/* results/
+          cp /tmp/index.html docs/index.html
           
           git add results/
           git add docs/index.html
